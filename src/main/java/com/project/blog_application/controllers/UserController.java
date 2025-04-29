@@ -29,7 +29,11 @@ public class UserController {
     public ResponseEntity<List<UserDTO>> getAllUsers(){
         log.info("UserController : getAllUsers()");
         List<UserDTO> fetchUsers = userService.getAllUsers();
-        return new ResponseEntity<>(fetchUsers, HttpStatus.OK);
+        if (!fetchUsers.isEmpty()) {
+            return new ResponseEntity<>(fetchUsers, HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
     }
 
     @PostMapping("/createUser")

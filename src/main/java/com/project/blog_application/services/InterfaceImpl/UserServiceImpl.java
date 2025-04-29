@@ -67,7 +67,6 @@ public class UserServiceImpl implements UserService {
             fetchedUserDTOs.add(this.convertUserToUserDTO(user));
         }
         log.info("getAllUsers() : fetched users list "+fetchedUserDTOs);
-        fetchedUsers = null;
         return fetchedUserDTOs;
     }
 

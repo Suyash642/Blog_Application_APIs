@@ -1,14 +1,13 @@
 package com.project.blog_application.Entities;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 @Entity
 @Table(name = "Users")
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder(toBuilder = true)
 @Getter
 @Setter
 @ToString
