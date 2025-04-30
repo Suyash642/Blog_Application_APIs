@@ -34,9 +34,9 @@ public class UserServiceImpl implements UserService {
             fetchedUser.setName(userDto.getName());
             fetchedUser.setEmail(userDto.getEmail());
             fetchedUser.setAbout(userDto.getAbout());
-            userRepo.save(fetchedUser);
-            log.info("updateUser() : user with Id "+userId+" is updated...");
-            log.info("updateUser() : updated user "+this.convertUserToUserDTO(fetchedUser));
+            User modifiedUser = userRepo.save(fetchedUser);
+            log.info("updateUser() : user with Id "+modifiedUser.getId()+" is updated...");
+            log.info("updateUser() : updated user "+this.convertUserToUserDTO(modifiedUser));
             return this.convertUserToUserDTO(fetchedUser);
         }else{
             log.error("updateUser() : user not found...");
