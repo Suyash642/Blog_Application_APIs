@@ -6,6 +6,7 @@ import com.project.blog_application.payloads.UserDTO;
 import com.project.blog_application.repositories.UserRepo;
 import com.project.blog_application.services.UserService;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +17,9 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepo userRepo;
+
+    @Autowired
+    private ModelMapper modelMapper;
 
     @Override
     public UserDTO createUser(User user) {
@@ -82,21 +86,11 @@ public class UserServiceImpl implements UserService {
 
     public UserDTO convertUserToUserDTO(User user){
         log.info("Start convertUserToUserDTO() method...");
-        UserDTO userDTO = new UserDTO();
-        userDTO.setId(user.getId());
-        userDTO.setName(user.getName());
-        userDTO.setEmail(user.getEmail());
-        userDTO.setAbout(user.getAbout());
-        return userDTO;
+        return this.modelMapper.map(user, UserDTO.class);
     }
 
     public User convertUserDTOToUser(UserDTO userDto){
         log.info("Start convertUserDTOToUser() method...");
-        User user = new User();
-        user.setId(userDto.getId());
-        user.setName(userDto.getName());
-        user.setEmail(userDto.getEmail());
-        user.setAbout(userDto.getAbout());
-        return user;
+        return this.modelMapper.map(userDto, User.class);
     }
 }
