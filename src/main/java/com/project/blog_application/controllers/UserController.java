@@ -1,8 +1,12 @@
 package com.project.blog_application.controllers;
 
 import com.project.blog_application.Entities.User;
+import com.project.blog_application.payloads.PasswordClass;
 import com.project.blog_application.payloads.UserDTO;
 import com.project.blog_application.services.UserService;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -37,21 +41,21 @@ public class UserController {
     }
 
     @PostMapping("/createUser")
-    public ResponseEntity<UserDTO> createUser(@RequestBody User user){
+    public ResponseEntity<UserDTO> createUser(@Valid @RequestBody User user){
         log.info("UserController : createUser()");
         UserDTO userDto = userService.createUser(user);
         return new ResponseEntity<>(userDto, HttpStatus.CREATED);
     }
 
     @PutMapping("/updateUser/{Id}")
-    public ResponseEntity<UserDTO> updateUser(@RequestBody UserDTO userDto, @PathVariable("Id") Integer Id){
+    public ResponseEntity<UserDTO> updateUser(@Valid @RequestBody UserDTO userDto, @PathVariable("Id") Integer Id){
         log.info("UserController : updateUser()");
         UserDTO userDTO = userService.updateUser(userDto, Id);
         return new ResponseEntity<>(userDTO, HttpStatus.OK);
     }
 
     @PutMapping("/updateUserPwd/{Id}")
-    public ResponseEntity<?> updateUserPwd(@RequestBody String password, @PathVariable("Id") Integer Id){
+    public ResponseEntity<?> updateUserPwd(@RequestBody PasswordClass password, @PathVariable("Id") Integer Id){
         log.info("UserController : updateUserPwd()");
         userService.updateUserPwd(Id, password);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);

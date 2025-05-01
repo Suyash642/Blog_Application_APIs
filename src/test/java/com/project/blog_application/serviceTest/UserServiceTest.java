@@ -2,6 +2,7 @@ package com.project.blog_application.serviceTest;
 
 import com.project.blog_application.Entities.User;
 import com.project.blog_application.Exceptions.UserNotFoundException;
+import com.project.blog_application.payloads.PasswordClass;
 import com.project.blog_application.payloads.UserDTO;
 import com.project.blog_application.repositories.UserRepo;
 import com.project.blog_application.services.InterfaceImpl.UserServiceImpl;
@@ -77,19 +78,19 @@ public class UserServiceTest {
     @Test
     public void testUpdateUserPassword_WhenUserExist(){
         Integer userId = 1;
-        String password = "abcd1234";
+        PasswordClass password = new PasswordClass("abcd1234");
         User mockUser = new User(1, "Test User", "testUser@gmail.com", "1234abcd","I am mock test user");
 
         Mockito.when(userRepo.findById(userId)).thenReturn(Optional.of(mockUser));
 
         userService.updateUserPwd(userId, password);
-        Assertions.assertEquals(password, mockUser.getPassword());
+        Assertions.assertEquals(password.getNewPassword(), mockUser.getPassword());
     }
 
     @Test
     public void testUpdateUserPassword_WhenUserNotExist(){
         Integer userId = 1;
-        String password = "abcd1234";
+        PasswordClass password = new PasswordClass("abcd1234");
 
         Mockito.when(userRepo.findById(userId)).thenReturn(Optional.empty());
 

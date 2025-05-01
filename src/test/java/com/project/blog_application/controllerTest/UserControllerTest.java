@@ -2,6 +2,7 @@ package com.project.blog_application.controllerTest;
 
 import com.project.blog_application.Entities.User;
 import com.project.blog_application.controllers.UserController;
+import com.project.blog_application.payloads.PasswordClass;
 import com.project.blog_application.payloads.UserDTO;
 import com.project.blog_application.services.UserService;
 import org.junit.jupiter.api.Assertions;
@@ -97,7 +98,7 @@ public class UserControllerTest {
 
     @Test
     public void testUpdateUserPwd(){
-        String newPwd = "Pass09877";
+        PasswordClass newPwd = new PasswordClass("Pass09877");
         Integer userId = 1;
         ResponseEntity<?> response = userController.updateUserPwd(newPwd, userId);
         Assertions.assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());

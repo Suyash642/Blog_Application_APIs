@@ -1,7 +1,9 @@
 package com.project.blog_application.services.InterfaceImpl;
 
 import com.project.blog_application.Entities.User;
+import com.project.blog_application.Exceptions.InvalidPasswordException;
 import com.project.blog_application.Exceptions.UserNotFoundException;
+import com.project.blog_application.payloads.PasswordClass;
 import com.project.blog_application.payloads.UserDTO;
 import com.project.blog_application.repositories.UserRepo;
 import com.project.blog_application.services.UserService;
@@ -43,17 +45,23 @@ public class UserServiceImpl implements UserService {
             log.info("updateUser() : updated user "+this.convertUserToUserDTO(modifiedUser));
             return this.convertUserToUserDTO(fetchedUser);
         }else{
-            log.error("updateUser() : user not found...");
+            log.info("updateUser() : user not found...");
             throw new UserNotFoundException("User with ID "+userId+" not exists...");
         }
     }
 
     @Override
-    public void updateUserPwd(Integer userId, String newPassword) {
+    public void updateUserPwd(Integer userId, PasswordClass newPassword) {
         log.info("Start updateUserPwd() method...");
         User fetchedUser = userRepo.findById(userId).orElseThrow(() -> new UserNotFoundException("User with ID "+userId+" not exists..."));
-        fetchedUser.setPassword(newPassword);
-        log.info("updateUserPwd() : password of user with ID "+userId+" is updated...");
+        if ((newPassword.getNewPassword()!=null) && (newPassword.getNewPassword().length() >= 4 && newPassword.getNewPassword().length() <= 10)) {
+            fetchedUser.setPassword(newPassword.getNewPassword());
+            userRepo.save(fetchedUser);
+            log.info("updateUserPwd() : password of user with ID " + userId + " is updated...");
+        }else {
+            log.info("updateUserPwd(): password is not valid, update password operation is failed....");
+            throw new InvalidPasswordException("Password is not valid...");
+        }
     }
 
     @Override
