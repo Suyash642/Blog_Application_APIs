@@ -28,7 +28,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDTO updateUser(UserDTO userDto, Integer userId) {
         log.info("Start updateUser() method...");
-        if(userRepo.existsById(userDto.getId())){
+        if(userRepo.existsById(userId)){
             log.info("updateUser() : user exists in DB...");
             User fetchedUser = userRepo.findById(userId).orElseThrow(()-> new UserNotFoundException("no user found with id "+userId));
             fetchedUser.setName(userDto.getName());
