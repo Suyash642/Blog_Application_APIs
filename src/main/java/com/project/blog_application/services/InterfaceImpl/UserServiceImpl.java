@@ -78,7 +78,8 @@ public class UserServiceImpl implements UserService {
         for(User user : fetchedUsers){
             fetchedUserDTOs.add(this.convertUserToUserDTO(user));
         }
-        log.info("getAllUsers() : fetched users list "+fetchedUserDTOs);
+        log.info("getAllUsers(): converted User to UserDTO...");
+        log.info("getAllUsers(): fetched userDTOs "+fetchedUserDTOs);
         return fetchedUserDTOs;
     }
 
